@@ -25,7 +25,7 @@ class ContenedorMongoDB {
         throw new CustomError(500, "listar by id", "empty result.");
       } else {
         const result = renameField(asPOJO(docs[0]), "_id", "id");
-        return asDto(result);
+        return result;
       }
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarbyId()", error);
@@ -41,11 +41,11 @@ class ContenedorMongoDB {
       let docs = await this.coleccion.find({}, { __v: 0 }).lean();
       docs = docs.map(asPOJO);
       docs = docs.map((d) => renameField(d, "_id", "id"));
-      return asDto(docs);
+      return docs;
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarAll()", error);
       logger.error(cuserr);
-      throw asDto(cuserr);
+      throw cuserr;
     }
   }
 
@@ -55,7 +55,7 @@ class ContenedorMongoDB {
       doc = asPOJO(doc);
       renameField(doc, "_id", "id");
       removeField(doc, "__v");
-      return asDto(doc);
+      return doc;
     } catch (error) {
       throw new CustomError(500, "Error al guardar", error);
     }
@@ -74,7 +74,7 @@ class ContenedorMongoDB {
         renameField(nuevoElem, "_id", "id");
         removeField(nuevoElem, "__v");
         let pojo = asPOJO(nuevoElem);
-        return asDto(pojo);
+        return pojo;
       }
     } catch (error) {
       throw new CustomError(500, "Error al actualizar:", error);
