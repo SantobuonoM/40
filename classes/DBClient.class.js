@@ -1,29 +1,25 @@
 import mongoose from "mongoose";
 import { config } from "../config/config.js";
 import CustomError from "./CustomError.class.js";
-let instance = null;
+import Singleton from "./singleton.js";
 
 class DBClient {
+  instance = null;
   constructor() {
     this.connected = false;
-    this.client = mongoose;
+    this.client = mongoose.connect(config.mongodb.host, config.mongodb.options);
     //console.log(config.mongodb.host);
 
     this.primeraConexion = new Date().toLocaleDateString();
   }
   async connect() {
-    throw new CustomError(
-      500,
-      "Falta implementar",
-      "method 'connect' en Sub Clase"
-    );
-  }
-  static getInstance() {
-    if (!instance) {
-      instance = new DBClient();
-    }
-
-    return instance;
+    this.instance = Singleton.getInstance();
+    
+    // throw new CustomError(
+    //   500,
+    //   "Falta implementar",
+    //   "method 'connect' en Sub Clase"
+    // );
   }
 }
 

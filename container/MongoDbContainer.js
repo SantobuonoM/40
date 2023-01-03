@@ -5,15 +5,17 @@ import { asPOJO, renameField, removeField } from "../utils/objectUtils.js";
 import mongoose from "mongoose";
 import { config } from "../config/config.js";
 import { asDto } from "../dtos/ProductDto.js";
+import  Singleton  from "../classes/singleton.js";
+
 mongoose.set("strictQuery", true);
 //mongoose.connect(config.mongodb.host, config.mongodb.options);
 
 class ContenedorMongoDB {
+  
   constructor(modelo) {
     this.coleccion = modelo;
-    this.conn =  MongoDBClient.getInstance();
+    this.conn = Singleton.getInstance();
   }
-
   async listar(id) {
     try {
       this.conn.connect();
@@ -39,7 +41,7 @@ class ContenedorMongoDB {
       let docs = await this.coleccion.find({}, { __v: 0 }).lean();
       docs = docs.map(asPOJO);
       docs = docs.map((d) => renameField(d, "_id", "id"));
-      return docs;
+      return asDto(docs);
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarAll()", error);
       logger.error(cuserr);
@@ -71,8 +73,8 @@ class ContenedorMongoDB {
       } else {
         renameField(nuevoElem, "_id", "id");
         removeField(nuevoElem, "__v");
-        let pojo= asPOJO(nuevoElem);
-        return asDto(pojo)
+        let pojo = asPOJO(nuevoElem);
+        return asDto(pojo);
       }
     } catch (error) {
       throw new CustomError(500, "Error al actualizar:", error);
@@ -95,7 +97,6 @@ class ContenedorMongoDB {
       throw new CustomError(500, "Error al borrar todo", error);
     }
   }
-  
 }
 
 export default ContenedorMongoDB;

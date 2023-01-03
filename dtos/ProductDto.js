@@ -1,8 +1,8 @@
 export default class ProductDto {
-    constructor({ title, price, thumbnail }) {
-        this.title = title
-        this.price = price
-        this.thumbnail = thumbnail
+    constructor({ nombre, precio, imagen }) {
+        this.title = nombre
+        this.price = precio
+        this.thumbnail = imagen
     }
 }
 
