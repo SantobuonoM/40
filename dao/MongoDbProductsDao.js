@@ -1,15 +1,15 @@
+import CustomError from "../classes/CustomError.class.js";
 import Singleton from "../classes/singleton.js";
 import ContenedorMongoDB from "../container/MongoDbContainer.js";
 import { asDto } from "../dtos/ProductDto.js";
 import ProductoModel from "../models/productos.model.js";
 import { asPOJO, renameField, removeField } from "../utils/objectUtils.js";
 
-
 let instance = [];
 class ProductoDAOMongoDB extends ContenedorMongoDB {
   constructor() {
     super(ProductoModel);
-    this.instancia = Singleton.getInstance()
+    this.instancia = Singleton.getInstance();
   }
   async listar(id) {
     try {
@@ -56,23 +56,12 @@ class ProductoDAOMongoDB extends ContenedorMongoDB {
     }
   }
 
-  async actualizar(nuevoElem) {
+  async actualizar(id,object) {
     try {
-      renameField(nuevoElem, "id", "_id");
-      const { n, nModified } = await this.coleccion.replaceOne(
-        { _id: nuevoElem.id },
-        nuevoElem
-      );
-      if (n == 0 || nModified == 0) {
-        throw new Error("Error al actualizar: no encontrado");
-      } else {
-        renameField(nuevoElem, "_id", "id");
-        removeField(nuevoElem, "__v");
-        let pojo = asPOJO(nuevoElem);
-        return asDto(pojo);
-      }
-    } catch (error) {
-      throw new CustomError(500, "Error al actualizar:", error);
+      const resUpdate = await this.coleccion.findOneAndUpdate({ _id: id }, object);
+      return resUpdate;
+    } catch (e) {
+      console.log(e);
     }
   }
 

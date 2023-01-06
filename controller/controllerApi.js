@@ -31,14 +31,13 @@ export async function deleteProduct(req, res) {
 }
 export async function updateProduct(req, res) {
   const { id } = req.params;
-  const { name, description, code, image, price, stock } = req.body;
+  const { nombre, descripcion, imagen, precio } = req.body;
   try {
-    const productUpdated = { name, description, code, image, price, stock };
+    const productUpdated = { nombre, descripcion, imagen, precio };
     await DAO.actualizar(id, productUpdated);
-    return res.json({ status: 200, msg: "Producto actualizado" });
-  } catch (e) {
-    logger.warn(e.message);
-    return res.json({ status: 500, msg: e.message });
+    return res.json("Producto actualizado").status(200);
+  } catch (error) {
+    throw new Error(`Error al obtener Operaciones`);
   }
 }
 export async function obtenerProductos(req, res) {
@@ -60,7 +59,7 @@ export async function guardarProducto(req, res) {
 
     const listaProductos = await DAO.listarAll();
 
-    return res.render("vista", { listaProductos });
+    return res.status(201).render("vista", { listaProductos });
   } catch (error) {
     console.log(error);
     return res.send(error.message);

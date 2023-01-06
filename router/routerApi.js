@@ -29,7 +29,7 @@ routerApi.delete("/productos/:id", deleteProduct);
 routerApi.post("/login", authLog, login);
 
 routerApi.get("/productos", obtenerProductos);
-routerApi.put("/:id", updateProduct);
+routerApi.put("/productos/:id", updateProduct);
 
 routerApi.post("/productos", guardarProducto);
 

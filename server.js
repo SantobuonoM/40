@@ -22,6 +22,7 @@ const app = express();
 const MONGO_DB_URI = process.env.MONGO_URI;
 
 app.use(compression());
+app.use(express.json());
 app.use(cookieParser());
 
 //////
@@ -56,7 +57,7 @@ passport.use(
     },
     (req, username, password, cb) => {
       User.findOne({ username: username }, (err, user) => {
-        if (err) return (err);
+        if (err) return err;
         if (!user) {
           console.log("User Not Found with username " + username);
           return cb(null, false);

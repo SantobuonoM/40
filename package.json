@@ -34,7 +34,7 @@
     "test": "node autocanon.js",
     "mocha": "mocha test/mocha/mocha.js",
     "chai": "mocha test/mocha/chai.js",
-    "dev": "nodemon server.js -p 5000"
+    "dev": "nodemon server.js -p 8081"
   },
   "repository": {
     "type": "git"
