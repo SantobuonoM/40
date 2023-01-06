@@ -5,13 +5,12 @@ import { asPOJO, renameField, removeField } from "../utils/objectUtils.js";
 import mongoose from "mongoose";
 import { config } from "../config/config.js";
 import { asDto } from "../dtos/ProductDto.js";
-import  Singleton  from "../classes/singleton.js";
+import Singleton from "../classes/singleton.js";
 
 mongoose.set("strictQuery", true);
 //mongoose.connect(config.mongodb.host, config.mongodb.options);
 
 class ContenedorMongoDB {
-  
   constructor(modelo) {
     this.coleccion = modelo;
     this.conn = Singleton.getInstance();
@@ -35,13 +34,15 @@ class ContenedorMongoDB {
   }
 
   async listarAll() {
-    try {
-      this.conn.connect();
+    //this.conn.connect();
 
-      let docs = await this.coleccion.find({}, { __v: 0 }).lean();
-      docs = docs.map(asPOJO);
-      docs = docs.map((d) => renameField(d, "_id", "id"));
-      return docs;
+    // let docs = await this.coleccion.find({}, { __v: 0 }).lean();
+    // docs = docs.map(asPOJO);
+    // docs = docs.map((d) => renameField(d, "_id", "id"));
+    // return docs;
+    try {
+      const productList = await this.coleccion.find({});
+      return productList;
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarAll()", error);
       logger.error(cuserr);

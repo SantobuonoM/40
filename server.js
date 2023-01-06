@@ -24,7 +24,31 @@ const MONGO_DB_URI = process.env.MONGO_URI;
 app.use(compression());
 app.use(express.json());
 app.use(cookieParser());
-
+// Importar GraphQL:
+import { graphqlHTTP } from "express-graphql";
+import { productGQLSchema } from "./graphql/schemas/productSchema.js";
+import {
+  listarProductos,
+  crearProducto,
+  obtenerProducto,
+  updateProducto,
+  deleteProducto,
+} from "./graphql/resolvers/productResolvers.js";
+//~~~~~~~~~~~~~~~GRAPHQL~~~~~~~~~~~~~~~~~~~~~~~~
+app.use(
+  "/graphql/productos",
+  graphqlHTTP({
+    schema: productGQLSchema,
+    rootValue: {
+      listarProductos,
+      crearProducto,
+      obtenerProducto,
+      updateProducto,
+      deleteProducto,
+    },
+    graphiql: false,
+  })
+);
 //////
 app.engine(
   "hbs",

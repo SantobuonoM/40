@@ -33,9 +33,9 @@ class ProductoDAOMongoDB extends ContenedorMongoDB {
     try {
       this.conn.connect();
 
-      let docs = await this.coleccion.find({}, { __v: 0 }).lean();
-      docs = docs.map(asPOJO);
-      docs = docs.map((d) => renameField(d, "_id", "id"));
+      let docs = await this.coleccion.find();
+      //docs = docs.map(asPOJO);
+     // docs = docs.map((d) => renameField(d, "_id", "id"));
       return asDto(docs);
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarAll()", error);
