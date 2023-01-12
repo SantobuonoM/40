@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "5d6e392d-d52e-45b6-9e91-e14f2fa55572",
+		"name": "graphQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAll productos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/graphql/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"graphql",
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOne producto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/graphql/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"graphql",
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update producto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation{\n    updateProducto(id:\"63c039dc96adb276e1317242\"\n    datos:{\n    nombre:\"Pelota Azul\",\n    descripcion: \"Redonda\",\n    precio: 750})\n    {\n        nombre,\n        precio,\n        descripcion\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/graphql/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"graphql",
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation{\n    deleteProducto(id:\"639b896b295467e6123cb206\"){\n        \n        nombre,\n        precio,\n        descripcion\n    }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/graphql/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"graphql",
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create productos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation{\n    crearProducto(datos:{\n        nombre: \"bola\",\n        descripcion: \"redonda\",\n        precio: 500,\n        imagen: \"not found\",\n        \n    })\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/graphql/productos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"graphql",
+						"productos",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
