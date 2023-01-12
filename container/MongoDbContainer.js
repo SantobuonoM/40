@@ -41,7 +41,7 @@ class ContenedorMongoDB {
     // docs = docs.map((d) => renameField(d, "_id", "id"));
     // return docs;
     try {
-      const productList = await this.coleccion.find({});
+      const productList = await this.coleccion.find();
       return productList;
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarAll()", error);

@@ -12,53 +12,79 @@ class ProductoDAOMongoDB extends ContenedorMongoDB {
     this.instancia = Singleton.getInstance();
   }
   async listar(id) {
-    try {
-      this.conn.connect();
+    // try {
+    //   this.conn.connect();
 
-      const docs = await this.coleccion.find({ _id: id }, { __v: 0 });
-      if (docs.length == 0) {
-        throw new CustomError(500, "listar by id", "empty result.");
-      } else {
-        const result = renameField(asPOJO(docs[0]), "_id", "id");
-        return asDto(result);
-      }
-    } catch (error) {
-      const cuserr = new CustomError(500, "Error al listarbyId()", error);
-      logger.error(cuserr);
-      throw asDto(cuserr);
+    //   const docs = await this.coleccion.find({ _id: id }, { __v: 0 });
+    //   if (docs.length == 0) {
+    //     throw new CustomError(500, "listar by id", "empty result.");
+    //   } else {
+    //     const result = renameField(asPOJO(docs[0]), "_id", "id");
+    //     return asDto(result);
+    //   }
+    // } catch (error) {
+    //   const cuserr = new CustomError(500, "Error al listarbyId()", error);
+    //   logger.error(cuserr);
+    //   throw asDto(cuserr);
+    // }
+    try {
+      const resFind = await this.coleccion.findOne({ _id: id });
+      return resFind;
+    } catch (e) {
+      console.log(e);
     }
   }
 
   async listarAll() {
-    try {
-      this.conn.connect();
+    // try {
+    //   this.conn.connect();
 
-      let docs = await this.coleccion.find();
-      //docs = docs.map(asPOJO);
-     // docs = docs.map((d) => renameField(d, "_id", "id"));
-      return asDto(docs);
+    //   let docs = await this.coleccion.find({});
+    //   console.log(docs)
+    //  return asDto(docs);
+    // } catch (error) {
+    //   const cuserr = new CustomError(500, "Error al listarAll()", error);
+    //   logger.error(cuserr);
+    //   throw asDto(cuserr);
+    // }
+    try {
+      const productList = await this.coleccion.find();
+      return productList;
     } catch (error) {
       const cuserr = new CustomError(500, "Error al listarAll()", error);
       logger.error(cuserr);
-      throw asDto(cuserr);
+      throw cuserr;
     }
   }
 
   async guardar(nuevoElem) {
+    // try {
+    //   let doc = await this.coleccion.create(nuevoElem);
+    //   doc = asPOJO(doc);
+    //   renameField(doc, "_id", "id");
+    //   removeField(doc, "__v");
+    //   return asDto(doc);
+    // } catch (error) {
+    //   throw new CustomError(500, "Error al guardar", error);
+    // }
     try {
-      let doc = await this.coleccion.create(nuevoElem);
-      doc = asPOJO(doc);
-      renameField(doc, "_id", "id");
-      removeField(doc, "__v");
-      return asDto(doc);
-    } catch (error) {
-      throw new CustomError(500, "Error al guardar", error);
+      this.conn.connect();
+
+      const resCreate = await this.coleccion.create(nuevoElem);
+      console.log(resCreate);
+      return resCreate;
+    } catch (e) {
+      console.log(e);
     }
   }
 
-  async actualizar(id,object) {
+  async actualizar(id, object) {
     try {
-      const resUpdate = await this.coleccion.findOneAndUpdate({ _id: id }, object);
+      const resUpdate = await this.coleccion.findOneAndUpdate(
+        { _id: id },
+        object
+      );
+      console.log("Este producto con este ID:"+ resUpdate._id+ "fue actualizado: ");
       return resUpdate;
     } catch (e) {
       console.log(e);
@@ -67,8 +93,9 @@ class ProductoDAOMongoDB extends ContenedorMongoDB {
 
   async borrar(id) {
     try {
-      const resDelete = await this.coleccion.deleteOne({ _id: id });
-      if (resDelete) return "product eliminado";
+      const resDelete = await this.coleccion.findByIdAndRemove({ _id: id });
+      console.log("El producto con el ID:"+id+" fue eliminado")
+      return resDelete;
     } catch (error) {
       throw new CustomError(500, "Error al borrar", error);
     }

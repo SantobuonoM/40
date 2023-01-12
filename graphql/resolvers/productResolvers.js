@@ -2,7 +2,7 @@ import ProductoDAOMongoDB from "../../dao/MongoDbProductsDao.js";
 let ContenedorMongo = new ProductoDAOMongoDB();
 
 export async function listarProductos() {
-  return await ContenedorMongo.listarAll();
+  return await ContenedorMongo.listarAll({});
 }
 export async function crearProducto({ datos }) {
   return await ContenedorMongo.guardar(datos);
